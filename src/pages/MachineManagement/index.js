@@ -31,6 +31,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import updata from "@/stores/globalStore";
 import OmpModal from "@/components/OmpModal";
+import HostDetailModal from "./HostDetailModal";
 import { fetchDelete } from "@/utils/request";
 // import antdStyles from "antd/lib/table/style";
 // import { ConfigProvider } from 'antd';
@@ -68,7 +69,12 @@ const MachineManagement = () => {
         let rotate = expandRowsKey.includes(record.id) ? 270 : 90;
         return (
           <span style={{ display: "flex", justifyContent: "space-around" }}>
-            <span>{record.is_omp_host ? `${text}(OMP)` : text}</span>
+            <span 
+              style={{ cursor: "pointer", color: "#1890ff" }}
+              onClick={() => openDetailModal(record)}
+            >
+              {record.is_omp_host ? `${text}(OMP)` : text}
+            </span>
             {/* <Icon
               rotate={rotate}
               style={{
@@ -185,6 +191,22 @@ const MachineManagement = () => {
 
   const [isSSHChecked, setIsSSHChecked] = useState(false);
 
+  // 主机详情模态框控制state
+  const [detailModalVisible, setDetailModalVisible] = useState(false);
+  const [selectedHostData, setSelectedHostData] = useState(null);
+
+  // 打开主机详情模态框
+  const openDetailModal = (hostData) => {
+    setSelectedHostData(hostData);
+    setDetailModalVisible(true);
+  };
+
+  // 关闭主机详情模态框
+  const closeDetailModal = () => {
+    setDetailModalVisible(false);
+    setSelectedHostData(null);
+  };
+
   // 默认展示loading，但更新ssh状态可能等待较久，不在前台显示loading
   // 模拟数据
   const mockData = [
@@ -205,6 +227,7 @@ const MachineManagement = () => {
       service_number: 5,
       operating_system: 'CentOS 7.9',
       running_time: 86400 * 30, // 30天
+      last_online_time: '2024-05-20 14:30:00',
     },
     {
       id: 2,
@@ -223,6 +246,7 @@ const MachineManagement = () => {
       service_number: 3,
       operating_system: 'Ubuntu 20.04',
       running_time: 86400 * 15, // 15天
+      last_online_time: '2024-05-20 15:45:00',
     },
     {
       id: 3,
@@ -241,6 +265,7 @@ const MachineManagement = () => {
       service_number: 0,
       operating_system: 'CentOS 7.8',
       running_time: 86400 * 10, // 10天
+      last_online_time: '2024-05-20 16:20:00',
     },
   ];
 
@@ -722,6 +747,13 @@ const MachineManagement = () => {
           />
         </div>
       </OmpModal>
+
+      {/* 主机详情模态框 */}
+      <HostDetailModal
+        visible={detailModalVisible}
+        hostData={selectedHostData}
+        onClose={closeDetailModal}
+      />
     </ContentWrapper>
   );
 };
