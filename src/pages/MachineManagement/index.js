@@ -376,6 +376,7 @@ const MachineManagement = () => {
 
   // 打开主机详情模态框
   const openDetailModal = (hostData) => {
+    setSelectedHostData(hostData);
     setDetailModalVisible(true);
   };
 
