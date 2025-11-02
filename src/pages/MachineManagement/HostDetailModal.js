@@ -165,6 +165,21 @@ const calculateHealthScore = (hostData) => {
 const { Panel } = Collapse;
 
 const HostDetailModal = ({ visible, hostData, onClose }) => {
+  if (!hostData) {
+    return (
+      <Modal
+        title="主机详情"
+        visible={visible}
+        onCancel={onClose}
+        footer={null}
+        width={600}
+      >
+        <div style={{ textAlign: 'center', padding: '40px 0' }}>
+          加载中...
+        </div>
+      </Modal>
+    );
+  }
 
   const healthScore = calculateHealthScore(hostData);
 
