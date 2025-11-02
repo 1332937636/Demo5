@@ -165,7 +165,6 @@ const calculateHealthScore = (hostData) => {
 const { Panel } = Collapse;
 
 const HostDetailModal = ({ visible, hostData, onClose }) => {
-  if (!hostData) return null;
 
   const healthScore = calculateHealthScore(hostData);
 
