@@ -38,6 +38,166 @@ import { fetchDelete } from "@/utils/request";
 // import zh_CN from 'antd/lib/locale-provider/zh_CN';
 // console.log(antdStyles);
 /*eslint-disable*/
+
+// 健康度计算工具函数
+const calculateHealthScore = (hostData) => {
+  // SSH状态分计算 (0-100)
+  const getSSHScore = (ssh_state) => {
+    switch (ssh_state) {
+      case 0: return 100; // 正常
+      case 1: return 0; // 异常
+      default: return 50; // 未知
+    }
+  };
+
+  // Agent状态分计算 (0-100)
+  const getAgentScore = (agent_state) => {
+    switch (agent_state) {
+      case 0: return 100; // 已安装
+      case 1: return 0; // 未安装
+      case 2: return 50; // 安装中
+      default: return 25; // 未知
+    }
+  };
+
+  // CPU健康分计算 (0-100)
+  const getCPUScore = (cpu_rate) => {
+    if (cpu_rate <= 50) return 100;
+    if (cpu_rate <= 70) return 80;
+    if (cpu_rate <= 85) return 60;
+    if (cpu_rate <= 95) return 40;
+    return 20;
+  };
+
+  // 内存健康分计算 (0-100)
+  const getMemoryScore = (memory_rate) => {
+    if (memory_rate <= 60) return 100;
+    if (memory_rate <= 75) return 80;
+    if (memory_rate <= 85) return 60;
+    if (memory_rate <= 95) return 40;
+    return 20;
+  };
+
+  // 磁盘健康分计算 (0-100)
+  const getDiskScore = (disk_rate) => {
+    if (disk_rate <= 70) return 100;
+    if (disk_rate <= 80) return 80;
+    if (disk_rate <= 90) return 60;
+    if (disk_rate <= 95) return 40;
+    return 20;
+  };
+
+  // 服务数量分计算 (0-100)
+  const getServiceScore = (service_number) => {
+    if (service_number === 0) return 100;
+    if (service_number <= 5) return 80;
+    if (service_number <= 10) return 60;
+    if (service_number <= 20) return 40;
+    return 20;
+  };
+
+  // 运行时长分计算 (0-100)
+  const getRunningTimeScore = (running_time) => {
+    const days = running_time / 86400;
+    if (days <= 7) return 100;
+    if (days <= 14) return 80;
+    if (days <= 30) return 60;
+    if (days <= 60) return 40;
+    return 20;
+  };
+
+  // 计算各项指标得分
+  const sshScore = getSSHScore(hostData.ssh_state);
+  const agentScore = getAgentScore(hostData.agent_state);
+  const cpuScore = getCPUScore(hostData.cpu_rate);
+  const memoryScore = getMemoryScore(hostData.memory_rate);
+  const diskScore = getDiskScore(hostData.disk_rate);
+  const serviceScore = getServiceScore(hostData.service_number);
+  const runningTimeScore = getRunningTimeScore(hostData.running_time);
+
+  // 计算基础稳定性分
+  const basicStabilityScore = Math.round(sshScore * 0.5 + agentScore * 0.5);
+
+  // 计算性能表现分
+  const performanceScore = Math.round(cpuScore * 0.4 + memoryScore * 0.4 + diskScore * 0.2);
+
+  // 计算服务状态分
+  const serviceStatusScore = Math.round(serviceScore * 0.6 + runningTimeScore * 0.4);
+
+  // 计算健康度总分
+  const totalScore = Math.round(basicStabilityScore * 0.4 + performanceScore * 0.3 + serviceStatusScore * 0.3);
+
+  // 获取健康度等级
+  const getHealthLevel = (score) => {
+    if (score >= 90) return { level: '优秀', color: '#52c41a' };
+    if (score >= 70) return { level: '良好', color: '#faad14' };
+    if (score >= 50) return { level: '一般', color: '#fa8c16' };
+    return { level: '较差', color: '#f5222d' };
+  };
+
+  // 获取优化建议
+  const getOptimizationSuggestions = () => {
+    const suggestions = [];
+
+    if (sshScore < 100) {
+      suggestions.push('SSH状态异常，建议检查SSH服务是否正常运行');
+    }
+
+    if (agentScore < 100) {
+      if (hostData.agent_state === 1) {
+        suggestions.push('Agent未安装，建议安装Agent以获得更好的监控体验');
+      } else if (hostData.agent_state === 2) {
+        suggestions.push('Agent正在安装中，请耐心等待');
+      } else {
+        suggestions.push('Agent状态未知，建议检查Agent服务状态');
+      }
+    }
+
+    if (cpuScore < 100) {
+      suggestions.push(`CPU使用率较高 (${hostData.cpu_rate}%)，建议优化应用程序或升级CPU`);
+    }
+
+    if (memoryScore < 100) {
+      suggestions.push(`内存使用率较高 (${hostData.memory_rate}%)，建议优化应用程序或增加内存`);
+    }
+
+    if (diskScore < 100) {
+      suggestions.push(`磁盘使用率较高 (${hostData.disk_rate}%)，建议清理磁盘空间或升级存储`);
+    }
+
+    if (serviceScore < 100) {
+      suggestions.push(`运行服务数量较多 (${hostData.service_number}个)，建议检查并关闭不必要的服务`);
+    }
+
+    if (runningTimeScore < 100) {
+      suggestions.push(`主机运行时间较长 (${Math.round(hostData.running_time / 86400)}天)，建议考虑重启以释放资源`);
+    }
+
+    if (suggestions.length === 0) {
+      suggestions.push('主机各项指标正常，无需优化');
+    }
+
+    return suggestions;
+  };
+
+  return {
+    totalScore,
+    basicStabilityScore,
+    performanceScore,
+    serviceStatusScore,
+    breakdown: {
+      sshScore,
+      agentScore,
+      cpuScore,
+      memoryScore,
+      diskScore,
+      serviceScore,
+      runningTimeScore
+    },
+    level: getHealthLevel(totalScore),
+    suggestions: getOptimizationSuggestions()
+  };
+};
 const MachineManagement = () => {
   const location = useLocation();
   const history = useHistory();
@@ -110,6 +270,25 @@ const MachineManagement = () => {
 
     // columnsConfig.running_time,
     {
+      title: "健康度",
+      width: 120,
+      key: "health_score",
+      align: "center",
+      render: (text, record, index) => {
+        const healthScore = calculateHealthScore(record);
+        return (
+          <div>
+            <div style={{ fontSize: '16px', fontWeight: 'bold', color: healthScore.level.color }}>
+              {healthScore.totalScore}分
+            </div>
+            <div style={{ fontSize: '12px', color: healthScore.level.color }}>
+              {healthScore.level.level}
+            </div>
+          </div>
+        );
+      },
+    },
+    { 
       title: "服务总数",
       width: 100,
       key: "service_number",
