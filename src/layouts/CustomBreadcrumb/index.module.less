@@ -1,0 +1,94 @@
+.customNav {
+  border-bottom: 1px solid#dcdee5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  height: 52px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+  background-color: #fff;
+
+  & > div:last-child {
+    margin-left: auto;
+  }
+}
+
+.timeStampContainer {
+  font-size: 13px;
+  //width: 100%;
+}
+
+.OmpTableWrapper {
+  //background-color: red;
+  // .OmpTableRow {
+  //   background-color: aqua !important;
+  // }
+  //margin-bottom: 100px;
+}
+:global {
+  //  之后即使是全局样式也配置在相应的组件里
+  .ant-table-wrapper {
+    //border: 1px solid #dcdee5;
+  }
+  .ant-table-body {
+    overflow-y: auto !important;
+  }
+  .ant-table-header {
+    border-bottom: 1px dashed #c4c6cc;
+  }
+  .ant-table-thead {
+    color: #313238;
+    font-weight: 400;
+    font-size: 12px;
+    tr > th {
+      background-color: #fafbfd;
+      background-color: #eaedf4;
+      background-color: rgba(73,134,247,0.1);
+    }
+    // .ant-table-cell :after {
+    //   background-color: red;
+    // }
+  }
+  .ant-table-tbody {
+    font-size: 12px;
+  }
+  .ant-table-pagination.ant-pagination {
+    //border-top: 1px dashed #c4c6cc;
+    margin: 0px;
+  }
+  .ant-table-pagination-right {
+    padding: 12px;
+    font-size: 12px;
+    background-color: #fff;
+  }
+  .ant-pagination-options-size-changer {
+    font-size: 12px;
+  }
+  // .ant-table.ant-table-middle .ant-table-title,
+  // .ant-table.ant-table-middle .ant-table-footer,
+  // .ant-table.ant-table-middle .ant-table-thead > tr > th,
+  // .ant-table.ant-table-middle .ant-table-tbody > tr > td,
+  // .ant-table.ant-table-middle tfoot > tr > th,
+  // .ant-table.ant-table-middle tfoot > tr > td {
+  //   padding: 1rem;
+  // }
+  .ant-select-item-option-content{
+    //font-size: 12px !important;
+  }
+  .ant-table-column-sorters {
+    display:inline-flex;
+    // align-items: center;
+    .ant-table-column-title{
+      position: relative;
+      top:1px;
+      left: -3px;
+    }
+    .ant-table-column-sorter {
+      position: relative;
+      left: 3px;
+    }
+    // .ant-table-column-sorter-full {}
+  }
+}

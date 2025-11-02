@@ -1,0 +1,36 @@
+.listButton {
+  display: flex;
+  justify-content: center;
+  color: #1890ff;
+  cursor: pointer;
+
+  & > div:not(:last-child) {
+    margin-right: 10px;
+  }
+}
+
+.saveButtonWrapper {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formItem {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > span:nth-child(1) {
+    display: inline-flex;
+    width: 130px;
+    font-size: 14px;
+    // font-weight: 500;
+    color: #333;
+  }
+
+  & > input:nth-child(2) {
+    width: 200px;
+  }
+}

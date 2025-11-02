@@ -1,0 +1,519 @@
+.OmpLayoutContainer {
+  color: #63656e;
+  height: 100%;
+  //height: 58px;
+  //background-color: red;
+  .siteLayoutBackground {
+    border-right: solid 1px #dcdee5;
+    //padding-left:20px;
+    //padding-top:0px ;
+  }}
+  .OmpHeader {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 58px;
+    color: white;
+    font-size: 14px;
+    white-space: nowrap;
+    background-color: #1a2131;
+    .headerSelect {
+      // /height: 25px;
+      width: 160px;
+    }
+    .headerDropDown {
+      font-size: 14px;
+      margin-left: 20px;
+      cursor: pointer;
+      padding: 7px 10px;
+      padding-right: 90px;
+      border: 1px solid #979aa4;
+      .headerDropDownIcon {
+        position: relative;
+        left: 70px;
+      }
+    }
+    .envMenuWrapper {
+      margin-left: auto;
+    }
+    .headerLogo {
+      width: 60px;
+      display: flex;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      & > img:nth-child(1) {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    div:nth-child(2) {
+      margin-right: 125px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .headerLink {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 25px;
+      color: #8d919c;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .headerLinkNohover {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 15px;
+      color: #8d919c;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .headerLink:hover {
+      background: #273146;
+    }
+
+    .userAvatar {
+      width: 100px;
+      //margin-right: 70px;
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      //width: 100%;
+      //justify-content: flex-end;
+    }
+    .userAvatarIcon {
+      position: relative;
+      top: 1px;
+      left: 3px;
+    }
+  }
+  .MenuTop {
+    height: 52px;
+    background-color: white;
+    border-bottom: 1px solid #dcdee5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  //   .siteLayoutBackground {
+  //     background-color: red;
+  //   }
+
+
+:global {
+  .ant-layout {
+    background-color: #fafbfd;
+    padding: 0px !important;
+  }
+  .ant-layout-header {
+    padding-left: 10px;
+  }
+  .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border-color: #c4c6cc;
+  }
+  .ant-input {
+    border-color: #c4c6cc !important;
+    box-shadow: 0 0 0px 1000px white inset;
+  }
+  .ant-btn {
+    color: #63656e !important;
+  }
+  .ant-btn-primary {
+    color: white !important;
+  }
+  .ant-btn-primary[disabled] {
+    border-color: #dcdee5 !important;
+    background-color: #dcdee5 !important;
+    //#c4c6cc
+  }
+  .ant-menu.ant-menu-dark,
+  .ant-menu-dark .ant-menu-sub,
+  .ant-menu.ant-menu-dark .ant-menu-sub {
+    background-color: white;
+    color: #63656e !important;
+  }
+
+  .ant-menu-dark .ant-menu-item:hover,
+  .ant-menu-dark .ant-menu-item-active,
+  .ant-menu-dark .ant-menu-submenu-active,
+  .ant-menu-dark .ant-menu-submenu-open,
+  .ant-menu-dark .ant-menu-submenu-selected,
+  .ant-menu-dark .ant-menu-submenu-title:hover {
+    color: #63656e !important;
+  }
+
+  .ant-menu-dark .ant-menu-item,
+  .ant-menu-dark .ant-menu-item-group-title,
+  .ant-menu-dark .ant-menu-item > a,
+  .ant-menu-dark .ant-menu-item > span > a {
+    color: #63656e !important;
+  }
+  .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal)
+    .ant-menu-item-selected {
+    color: white !important;
+    //border-right: 2px solid #5487ef;
+  }
+  //左侧菜单的展开图标
+  .ant-menu.ant-menu-dark
+    .ant-menu-submenu-title
+    .ant-menu-submenu-arrow::after,
+  .ant-menu-dark
+    .ant-menu-sub
+    .ant-menu-submenu-title
+    .ant-menu-submenu-arrow::after,
+  .ant-menu.ant-menu-dark
+    .ant-menu-sub
+    .ant-menu-submenu-title
+    .ant-menu-submenu-arrow::after,
+  .ant-menu.ant-menu-dark
+    .ant-menu-submenu-title
+    .ant-menu-submenu-arrow::before,
+  .ant-menu-dark
+    .ant-menu-sub
+    .ant-menu-submenu-title
+    .ant-menu-submenu-arrow::before,
+  .ant-menu.ant-menu-dark
+    .ant-menu-sub
+    .ant-menu-submenu-title
+    .ant-menu-submenu-arrow::before {
+    background-color: #63656e;
+  }
+  // //鼠标悬停时menu
+  // .ant-menu-inline >.ant-menu-item-active {
+  //   background-color: #f6f6f9 !important;
+  // }
+  // //被选中的item就不要改变颜色了
+  // .ant-menu-item-selecte:hover {
+  //   background-color: #5487ef !important;
+  // }
+}
+
+body {
+  font-size: 14px;
+}
+:global {
+  .ant-layout {
+    // /background-color: #f6f7fb;
+  }
+  .ant-table-thead > tr > th {
+    font-weight: 400 !important;
+  }
+  .ant-table {
+    font-size: 14px!important;
+  }
+  .ant-table-wrapper {
+    background-color: #fff;
+  }
+  .ant-table-small {
+    border-radius: 2px;
+    border: 1px solid #ebeef2;
+    .ant-table-body {
+      //overflow-y:auto;
+      overflow-x: auto !important;
+    }
+  }
+  .ant-btn {
+    box-shadow: none;
+    border-radius: 2px;
+    height: 30px;
+    font-size: 13px;
+  }
+  .ant-select {
+    font-size: 13px !important;
+  }
+  .ant-table-pagination{
+    font-size: 14px !important;
+  }
+  .ant-checkbox-wrapper{
+    display: flex!important;
+    align-items: center!important;
+    font-size: 14px !important;
+  }
+  .ant-dropdown-menu-item-group-list{
+    margin: 0;
+    .ant-dropdown-menu-item{
+      padding: 5px 20px;
+    }
+  }
+  .ant-table-selection-column {
+    span{
+      top:1px
+    }
+  }
+  .ant-input-group-addon {
+    padding: 0px !important;
+    border:1px solid #5192f0!important
+  }
+  // .ant-input{
+  //   &::placeholder {
+  //     font-size: 22px!important;
+  //   }
+  // }
+}
+.mainHeader {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  color: white;
+  font-size: 14px;
+  white-space: nowrap;
+  .headerSelect {
+    // /height: 25px;
+    width: 160px;
+    margin-right: 20px;
+    
+    // /color: #fff;
+    // margin: 0px;
+    // margin-left: 80px;
+  }
+  .headerDropDown {
+    font-size: 14px;
+    margin-left: 20px;
+    cursor: pointer;
+
+    padding:7px 10px;
+    padding-right: 90px;
+    border:1px solid #979aa4;
+    .headerDropDownIcon {
+      position: relative;
+      left: 70px;
+    }
+  }
+  .envMenuWrapper {
+    //background-color: #8d919c;
+    margin-left: auto;
+  }
+  // .headerSelect > div{
+  //   // margin: 0px;
+  //   background-color: #1b2131;
+  //   font-size: 16px;
+  //   // margin-left: 80px;
+  // }
+
+  // .headerSelect > div> span {
+  //   // margin: 0px;
+  //   color: #fff;
+  //   // margin-left: 80px;
+  // }
+  // div {
+  //   height: 100%;
+  // }
+
+  .headerLogo {
+    width: 60px;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    & > img:nth-child(1) {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  div:nth-child(2) {
+    margin-right: 60px;
+    font-size: 16px;
+  }
+
+  .headerLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 15px;
+    color: #8d919c;
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .headerLinkNohover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 15px;
+    color: #8d919c;
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .headerLink:hover {
+    background: #000;
+  }
+
+  .userAvatar {
+    width:70px;
+    margin-right: 70px;
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+  }
+  .userAvatarIcon{
+    position: relative;
+    top: 1px;
+    left: 3px;
+  }
+}
+
+body div {
+  box-sizing: border-box;
+}
+
+// 在此处全局修改antd的样式
+:global {
+  .ant-empty-description {
+    font-size: 14px;
+  }
+  // 修改table标题颜色
+  .ant-table-thead > tr > th {
+    color: #4a4b50 !important;
+  }
+  // 修改table表头背景色
+  .ant-table-small
+    > .ant-table-content
+    > .ant-table-header
+    > table
+    > .ant-table-thead
+    > tr
+    > th,
+  .ant-table-small
+    > .ant-table-content
+    > .ant-table-body
+    > table
+    > .ant-table-thead
+    > tr
+    > th,
+  .ant-table-small
+    > .ant-table-content
+    > .ant-table-scroll
+    > .ant-table-header
+    > table
+    > .ant-table-thead
+    > tr
+    > th,
+  .ant-table-small
+    > .ant-table-content
+    > .ant-table-scroll
+    > .ant-table-body
+    > table
+    > .ant-table-thead
+    > tr
+    > th,
+  .ant-table-small
+    > .ant-table-content
+    > .ant-table-fixed-left
+    > .ant-table-header
+    > table
+    > .ant-table-thead
+    > tr
+    > th,
+  .ant-table-small
+    > .ant-table-content
+    > .ant-table-fixed-right
+    > .ant-table-header
+    > table
+    > .ant-table-thead
+    > tr
+    > th,
+  .ant-table-small
+    > .ant-table-content
+    > .ant-table-fixed-left
+    > .ant-table-body-outer
+    > .ant-table-body-inner
+    > table
+    > .ant-table-thead
+    > tr
+    > th,
+  .ant-table-small
+    > .ant-table-content
+    > .ant-table-fixed-right
+    > .ant-table-body-outer
+    > .ant-table-body-inner
+    > table
+    > .ant-table-thead
+    > tr
+    > th {
+    background: #fafbfd !important;
+  }
+
+  // 修改小table 外边距导致的白底
+  .ant-table-small > .ant-table-content > .ant-table-body {
+    margin: 0 !important;
+  }
+  // 开启排序后防止标题居中
+  .ant-table-thead
+    > tr
+    > th
+    .ant-table-column-sorter
+    .ant-table-column-sorter-inner {
+    margin-right: -20px !important;
+  }
+
+  // 隐藏左侧收起边栏按钮，因为收起时menu组件有bug，且组件库做了不兼容的升级，无法修复
+  .cw-collapsed-btn {
+    display: none;
+    justify-content: center;
+  }
+
+  // 顶部header
+  .ant-layout-header {
+    background-color: #192132;
+  }
+
+  // Collapse组件中的Panel标题加粗
+  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    font-weight: 500 !important;
+    background-color: #f5f5f5;
+  }
+
+  .ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner-full {
+    //margin-top: -0.5rem !important;
+    margin-left: 2px !important
+  }
+
+  .ant-layout-sider {
+    box-shadow: none !important;
+  }
+
+  .certain-category-icon {
+    position: relative;
+    left: 2px;
+  }
+
+  .certain-category-icon-service {
+    top: 1px;
+  }
+
+  .ant-modal-title {
+    font-size: 15px;
+  }
+  .ant-table-thead {
+    background-color: #fafbfd;
+    color: #313238;
+    font-weight: 400;
+    font-size: 12px;
+    // .ant-table-cell :after {
+    //   background-color: red;
+    // }
+  }
+  .ant-table-tbody {
+    font-size: 12px;
+  }
+  // .ant-table-pagination.ant-pagination {
+  //   margin: 0px !important;
+  // }
+  .ant-table-column-title {
+    position: relative;
+    top: 2px;
+  }
+}
