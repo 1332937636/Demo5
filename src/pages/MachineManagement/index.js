@@ -24,6 +24,7 @@ import {
   Spin,
   Table,
   Form,
+  Select,
 } from "antd";
 // import { Table } from "antd";
 import * as R from "ramda";
@@ -369,6 +370,9 @@ const MachineManagement = () => {
   const [expandRowsKey, setExpandRowsKey] = useState([]);
 
   const [isSSHChecked, setIsSSHChecked] = useState(false);
+  // 筛选状态
+  const [sshFilter, setSshFilter] = useState('all'); // 'all', '0', '1'
+  const [agentFilter, setAgentFilter] = useState('all'); // 'all', '0', '1', '2', '3'
 
   // 主机详情模态框控制state
   const [detailModalVisible, setDetailModalVisible] = useState(false);
@@ -489,6 +493,13 @@ const MachineManagement = () => {
     ? unusedData
     : usedData;
 
+  // 应用筛选条件
+  const filteredData = currentPageData.filter(item => {
+    const sshMatch = sshFilter === 'all' || item.ssh_state === parseInt(sshFilter);
+    const agentMatch = agentFilter === 'all' || item.agent_state === parseInt(agentFilter);
+    return sshMatch && agentMatch;
+  });
+
   const datasource = Array.from(
     new Set(
       R.flatten(
@@ -603,6 +614,46 @@ const MachineManagement = () => {
   return (
     <ContentWrapper>
       <Spin spinning={isLoading}>
+        {/* 筛选器 */}
+        <div style={{ marginBottom: 16, display: 'flex', gap: 16, alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span>SSH状态：</span>
+            <Select
+              value={sshFilter}
+              onChange={setSshFilter}
+              style={{ width: 120 }}
+              options={[
+                { value: 'all', label: '全部' },
+                { value: '0', label: '正常' },
+                { value: '1', label: '异常' }
+              ]}
+            />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span>Agent状态：</span>
+            <Select
+              value={agentFilter}
+              onChange={setAgentFilter}
+              style={{ width: 120 }}
+              options={[
+                { value: 'all', label: '全部' },
+                { value: '0', label: '未安装' },
+                { value: '1', label: '安装中' },
+                { value: '2', label: '已安装' },
+                { value: '3', label: '安装失败' }
+              ]}
+            />
+          </div>
+          <Button
+            type="default"
+            onClick={() => {
+              setSshFilter('all');
+              setAgentFilter('all');
+            }}
+          >
+            重置筛选
+          </Button>
+        </div>
         <div className={styles.warningSearch}>
           <div>
             <Button
@@ -741,60 +792,60 @@ const MachineManagement = () => {
         </div>
         {/* <ConfigProvider locale={zh_CN}> */}
         <Table
-          rowClassName={styles.machineTable}
-          // expandIcon={()=><span><span ><Icon style={{transform:"rotate(90deg)"}} type="double-right" /></span></span>}
-          size={"small"}
-          //tableLayout="auto"
-          rowKey={(record) => record.id}
-          // scroll={{ x: 1200 }}
-          rowSelection={{
-            onSelect: (record, selected, selectedRows) =>
-              setCheckedList(selectedRows),
-            onSelectAll: (selected, selectedRows, changeRows) =>
-              setCheckedList(selectedRows),
-            getCheckboxProps: (record) => ({
-              //不是0，不是1就发
-              // ssh状态不能是1
-              // disabled:
-              //   record.agent_state === 0 ||
-              //   record.agent_state === 1 ||
-              //   record.ssh_state === 1,
-            }),
-            selectedRowKeys: checkedList.map((item) => item.id),
-          }}
-          columns={columns}
-          expandRowByClick={true}
-          pagination={paginationConfig(
-            searchData.length > 0 ? searchData : currentPageData
-          )}
-          expandIconColumnIndex={-1}
-          expandIconAsCell={false}
-          dataSource={searchData.length > 0 ? searchData : currentPageData}
-          // expandable={{
-          //   expandedRowRender: (record) => {
-          //     return <p className={styles.antdTableExpandedRow}>
-          //       <span>操作系统:{record["operating_system"]}</span>
-          //       <span>配置信息:{renderInformation(null,record)}</span>
-          //       <span>运行时长:{renderFormattedTime(record["running_time"])}</span>
-          //     </p>;
-          //   },
-          //   // rowExpandable: record => record.name !== 'Not Expandable',
-          // }}
-          expandedRowRender={(record) => {
-            return (
-              <p className={styles.antdTableExpandedRow}>
-                <span>操作系统:{record["operating_system"]}</span>
-                <span>配置信息:{renderInformation(null, record)}</span>
-                <span>
-                  运行时长:{renderFormattedTime(record["running_time"])}
-                </span>
-              </p>
-            );
-          }}
-          onExpandedRowsChange={(row) => {
-            setExpandRowsKey(row);
-          }}
-        />
+            rowClassName={styles.machineTable}
+            // expandIcon={()=><span><span ><Icon style={{transform:"rotate(90deg)"}} type="double-right" /></span></span>}
+            size={"small"}
+            //tableLayout="auto"
+            rowKey={(record) => record.id}
+            // scroll={{ x: 1200 }}
+            rowSelection={{
+              onSelect: (record, selected, selectedRows) =>
+                setCheckedList(selectedRows),
+              onSelectAll: (selected, selectedRows, changeRows) =>
+                setCheckedList(selectedRows),
+              getCheckboxProps: (record) => ({
+                //不是0，不是1就发
+                // ssh状态不能是1
+                // disabled:
+                //   record.agent_state === 0 ||
+                //   record.agent_state === 1 ||
+                //   record.ssh_state === 1,
+              }),
+              selectedRowKeys: checkedList.map((item) => item.id),
+            }}
+            columns={columns}
+            expandRowByClick={true}
+            pagination={paginationConfig(
+              searchData.length > 0 ? searchData : filteredData
+            )}
+            expandIconColumnIndex={-1}
+            expandIconAsCell={false}
+            dataSource={searchData.length > 0 ? searchData : filteredData}
+            // expandable={{
+            //   expandedRowRender: (record) => {
+            //     return <p className={styles.antdTableExpandedRow}>
+            //       <span>操作系统:{record["operating_system"]}</span>
+            //       <span>配置信息:{renderInformation(null,record)}</span>
+            //       <span>运行时长:{renderFormattedTime(record["running_time"])}</span>
+            //     </p>;
+            //   },
+            //   // rowExpandable: record => record.name !== 'Not Expandable',
+            // }}
+            expandedRowRender={(record) => {
+              return (
+                <p className={styles.antdTableExpandedRow}>
+                  <span>操作系统:{record["operating_system"]}</span>
+                  <span>配置信息:{renderInformation(null, record)}</span>
+                  <span>
+                    运行时长:{renderFormattedTime(record["running_time"])}
+                  </span>
+                </p>
+              );
+            }}
+            onExpandedRowsChange={(row) => {
+              setExpandRowsKey(row);
+            }}
+          />
         {/* </ConfigProvider> */}
       </Spin>
       <OmpModal
